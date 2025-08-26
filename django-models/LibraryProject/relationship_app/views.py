@@ -2,6 +2,8 @@ from django.shortcuts import render
 from .models import Book
 from django.views.generic.detail import DetailView
 from .models import Library
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
 
 class LibraryDetailView(DetailView):
     model = Library
