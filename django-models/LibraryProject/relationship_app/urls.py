@@ -12,5 +12,8 @@ urlpatterns = [
     path('library/<int:pk>/', LibraryDetailView.as_view(), name='library_detail'),
     path('register/', views.register, name='register'),
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
+    path('books/add/', views.add_book, name='add_book'),
+    path('books/<int:pk>/edit/', views.edit_book, name='edit_book'),
+    path('books/<int:pk>/delete/', views.delete_book, name='delete_book'),
     path('logout/', LogoutView.as_view(template_name='logout.html'), name='logout')
 ]
