@@ -14,7 +14,7 @@ class LibraryDetailView(DetailView):
 
 
 def list_books(request):
-    books = Book.objects.select_related('author').all()
+    books = Book.objects.all()
     return render(request, 'relationship_app/list_books.html', {'books': books})
 
 
