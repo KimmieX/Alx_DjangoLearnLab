@@ -3,6 +3,21 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+
+class Article(models.Model):
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+
+    class Meta:
+        permissions = [
+            ("can_view", "Can view article"),
+            ("can_create", "Can create article"),
+            ("can_edit", "Can edit article"),
+            ("can_delete", "Can delete article"),
+        ]
+
+
+
 class UserProfile(models.Model):
     ROLE_CHOICES = [
         ('Admin', 'Admin'),
