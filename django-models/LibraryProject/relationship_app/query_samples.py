@@ -14,3 +14,10 @@ def books_in_library(library_name):
 def librarian_for_library(library_name):
     library = Library.objects.get(name=library_name)
     return library.librarian
+
+author = Author.objects.get(name="Chimamanda Ngozi Adichie")
+books_by_author = Book.objects.filter(author=author)
+
+for book in books_by_author:
+    print(book.title)
+
