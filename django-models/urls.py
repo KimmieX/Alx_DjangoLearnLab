@@ -1,5 +1,8 @@
 from django.urls import path
 from . import views
+from .admin_view import admin_view
+from .librarian_view import librarian_view
+from .member_view import member_view
 
 urlpatterns = [
     path('admin/', views.admin_view, name='admin_view'),
