@@ -21,3 +21,10 @@ books_by_author = Book.objects.filter(author=author)
 for book in books_by_author:
     print(book.title)
 
+library = Library.objects.get(name="Accra Central Library")
+librarian = Librarian.objects.get(library=library)
+
+print(librarian.name)
+
+
+
