@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Book
 from django.views.generic.detail import DetailView
 from .models import Library
@@ -13,4 +13,15 @@ class LibraryDetailView(DetailView):
 def list_books(request):
     books = Book.objects.select_related('author').all()
     return render(request, 'list_books.html', {'books': books})
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = UserCreationForm()
+    return render(request, 'register.html', {'form': form})
+
     
