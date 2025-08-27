@@ -17,5 +17,8 @@ urlpatterns = [
     path('books/<int:pk>/delete/', BookDeleteView.as_view(), name='book-delete'),
     path('api/', include('api.urls')),
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls'))
+    path('api/', include('api.urls')),
+    path('books/update/', BookUpdateView.as_view(), name='book-update'),
+    path('books/delete/', BookDeleteView.as_view(), name='book-delete')
+
 ]
