@@ -25,6 +25,7 @@ def home(request):
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home),  # This serves the root URL
+    path('', home),
+    path('api/', include('posts.urls')),
 ]
 
