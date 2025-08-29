@@ -12,7 +12,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from rest_framework import generics, permissions, status
-
+from .models import Post
+from .serializers import PostSerializer
 
 
 # Create your views here.
@@ -97,5 +98,14 @@ class UnfollowUserView(generics.GenericAPIView):
             return Response({'detail': f'You have unfollowed {target_user.username}'}, status=status.HTTP_200_OK)
         except User.DoesNotExist:
             return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class FeedView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        following_users = user.following.all()  # Assuming a ManyToManyField named 'following'
+        return Post.objects.filter(author__in=following_users).order_by('-created_at')
 
 
