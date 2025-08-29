@@ -11,6 +11,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
+from rest_framework import generics, permissions, status
+
+
 
 # Create your views here.
 
@@ -70,4 +73,29 @@ def unfollow_user(request, user_id):
         return Response({'detail': f'You have unfollowed {target.username}'})
     except User.DoesNotExist:
         return Response({'error': 'User not found'}, status=404)
+
+User = get_user_model()
+
+class FollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        try:
+            target_user = User.objects.get(id=user_id)
+            request.user.following.add(target_user)
+            return Response({'detail': f'You are now following {target_user.username}'}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+class UnfollowUserView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, user_id):
+        try:
+            target_user = User.objects.get(id=user_id)
+            request.user.following.remove(target_user)
+            return Response({'detail': f'You have unfollowed {target_user.username}'}, status=status.HTTP_200_OK)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
 
