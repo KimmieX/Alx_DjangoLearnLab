@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from .models import Post
 from .serializers import PostSerializer
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, permissions
 
 
 # Create your views here.
@@ -40,3 +41,12 @@ def user_feed(request):
     posts = Post.objects.filter(author__in=followed_users).order_by('-created_at')
     serializer = PostSerializer(posts, many=True)
     return Response(serializer.data)
+
+class FeedView(generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        following_users = self.request.user.following.all()
+        return Post.objects.filter(author__in=following_users).order_by('-created_at')
+
