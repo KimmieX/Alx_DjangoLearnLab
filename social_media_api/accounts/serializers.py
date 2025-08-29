@@ -28,10 +28,10 @@ class RegisterSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def create(self, validated_data):
-        User = get_user_model()
-        user = User.objects.create_user(
+        user = get_user_model().objects.create_user(
             username=validated_data['username'],
             password=validated_data['password']
         )
         Token.objects.create(user=user)
         return user
+
