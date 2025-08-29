@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from taggit.managers import TaggableManager
 from PIL import Image # type: ignore
 
 class Profile(models.Model):
@@ -42,4 +43,5 @@ class Tag(models.Model):
 class Post(models.Model):
     # existing fields...
     tags = models.ManyToManyField(Tag, related_name='posts', blank=True)
+    tags = TaggableManager()
 

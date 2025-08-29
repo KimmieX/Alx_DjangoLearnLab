@@ -18,6 +18,8 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from .models import Post, Tag
 from django.db.models import Q
+from taggit.models import Tag
+
 
 
 def register(request):
@@ -178,3 +180,7 @@ def search_posts(request):
     ).distinct()
     return render(request, 'blog/search_results.html', {'results': results, 'query': query})
 
+def posts_by_tag(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    posts = Post.objects.filter(tags__slug__in=[tag_slug])
+    return render(request, 'blog/posts_by_tag.html', {'tag': tag, 'posts': posts})
